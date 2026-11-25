@@ -1,0 +1,36 @@
+sequenceDiagram
+    participant B as Belegger
+    participant A as Aandeel
+    participant S as Startpunt 31-12-2025
+    participant F as Fiscus
+
+    Note over B,A: 2023: meerdere aankopen van hetzelfde aandeel
+    B->>A: Koopt aandelen in verschillende transacties
+    A-->>B: Gemiddelde aankoopkoers (GAK) = €150
+
+    Note over S: Slotkoers op 31-12-2025 = €120
+
+    Note over B,A: Latere verkoop
+    B->>A: Verkoopt volledig pakket aan €125
+    A-->>B: Verkoopprijs = €125
+
+    B->>F: Vraag berekening belastbare meerwaarde
+
+    F->>F: Vergelijk GAK (€150) met startpunt (€120)
+
+    alt GAK > startpunt
+        F->>F: Gebruik GAK als aanschaffingswaarde
+        F->>F: Negeer startpunt van 31-12-2025
+    else GAK <= startpunt
+        F->>F: Gebruik startpunt als aanschaffingswaarde
+    end
+
+    F->>F: Berekening = €125 - €150 = -€25
+
+    alt Meerwaarde > 0
+        F-->>B: 10% meerwaardebelasting verschuldigd
+    else Geen meerwaarde
+        F-->>B: Geen meerwaardebelasting verschuldigd
+    end
+
+    Note over B,F: Resultaat: verkoop onder GAK → geen belastbare meerwaarde
